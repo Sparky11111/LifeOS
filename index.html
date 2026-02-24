@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mój Dziennik Życia</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-book-open"></i>
+                    <h1>Mój Dziennik Życia</h1>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalDays">0</span>
+                        <span class="stat-label">Dni</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="avgMood">0</span>
+                        <span class="stat-label">Średnia ocena</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="completedGoals">0</span>
+                        <span class="stat-label">Ukończone cele</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Navigation -->
+            <nav class="sidebar">
+                <ul class="nav-menu">
+                    <li class="nav-item active" data-page="today">
+                        <i class="fas fa-calendar-day"></i>
+                        <span>Dziś</span>
+                    </li>
+                    <li class="nav-item" data-page="history">
+                        <i class="fas fa-history"></i>
+                        <span>Historia</span>
+                    </li>
+                    <li class="nav-item" data-page="goals">
+                        <i class="fas fa-bullseye"></i>
+                        <span>Cele</span>
+                    </li>
+                    <li class="nav-item" data-page="statistics">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Statystyki</span>
+                    </li>
+                    <li class="nav-item" data-page="insights">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>Wnioski</span>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Today Page -->
+                <section id="today-page" class="page active">
+                    <div class="page-header">
+                        <h2>Dziś, <span id="currentDate"></span></h2>
+                        <div class="mood-selector">
+                            <label>Ocena dnia:</label>
+                            <div class="mood-buttons">
+                                <button class="mood-btn" data-mood="1">😞</button>
+                                <button class="mood-btn" data-mood="2">😐</button>
+                                <button class="mood-btn" data-mood="3">🙂</button>
+                                <button class="mood-btn" data-mood="4">😊</button>
+                                <button class="mood-btn" data-mood="5">🤩</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-grid">
+                        <!-- Daily Entry -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-pen"></i> Wpis dzienny</h3>
+                            </div>
+                            <div class="card-content">
+                                <textarea id="dailyEntry" placeholder="Opisz swój dzień... Co się wydarzyło? Jak się czujesz?"></textarea>
+                                <div class="entry-tags">
+                                    <input type="text" id="tagInput" placeholder="Dodaj tagi (np. #praca #sport)">
+                                    <div class="tags-container" id="tagsContainer"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Goals for Tomorrow -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-target"></i> Cele na jutro</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="goal-input-group">
+                                    <input type="text" id="goalInput" placeholder="Wpisz cel...">
+                                    <select id="goalPriority">
+                                        <option value="low">Niski</option>
+                                        <option value="medium">Średni</option>
+                                        <option value="high">Wysoki</option>
+                                    </select>
+                                    <button id="addGoalBtn"><i class="fas fa-plus"></i></button>
+                                </div>
+                                <div id="goalsList" class="goals-list"></div>
+                            </div>
+                        </div>
+
+                        <!-- Gratitude -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-heart"></i> Wdzięczność</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="gratitude-input-group">
+                                    <input type="text" id="gratitudeInput" placeholder="Za co jesteś wdzięczny/a dziś?">
+                                    <button id="addGratitudeBtn"><i class="fas fa-plus"></i></button>
+                                </div>
+                                <div id="gratitudeList" class="gratitude-list"></div>
+                            </div>
+                        </div>
+
+                        <!-- Activities -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-running"></i> Aktywności</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="activities-grid">
+                                    <div class="activity-item">
+                                        <label>Kroki:</label>
+                                        <input type="number" id="stepsInput" placeholder="0">
+                                    </div>
+                                    <div class="activity-item">
+                                        <label>Woda (ml):</label>
+                                        <input type="number" id="waterInput" placeholder="0">
+                                    </div>
+                                    <div class="activity-item">
+                                        <label>Sen (godz):</label>
+                                        <input type="number" id="sleepInput" placeholder="0" step="0.5">
+                                    </div>
+                                    <div class="activity-item">
+                                        <label>Ćwiczenia (min):</label>
+                                        <input type="number" id="exerciseInput" placeholder="0">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="save-section">
+                        <button id="saveDayBtn" class="save-btn">
+                            <i class="fas fa-save"></i> Zapisz dzień
+                        </button>
+                    </div>
+                </section>
+
+                <!-- History Page -->
+                <section id="history-page" class="page">
+                    <div class="page-header">
+                        <h2>Historia wpisów</h2>
+                        <div class="filter-controls">
+                            <input type="month" id="monthFilter">
+                            <select id="moodFilter">
+                                <option value="">Wszystkie nastroje</option>
+                                <option value="5">🤩 Bardzo dobry</option>
+                                <option value="4">😊 Dobry</option>
+                                <option value="3">🙂 Neutralny</option>
+                                <option value="2">😐 Słaby</option>
+                                <option value="1">😞 Bardzo słaby</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="historyContent" class="history-content"></div>
+                </section>
+
+                <!-- Goals Page -->
+                <section id="goals-page" class="page">
+                    <div class="page-header">
+                        <h2>Cele i zadania</h2>
+                    </div>
+                    <div class="goals-overview">
+                        <div class="goal-stats">
+                            <div class="stat-card">
+                                <h4>Aktywne cele</h4>
+                                <span class="stat-number" id="activeGoalsCount">0</span>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Ukończone</h4>
+                                <span class="stat-number" id="completedGoalsCount">0</span>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Skuteczność</h4>
+                                <span class="stat-number" id="goalsEfficiency">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="goalsContent" class="goals-content"></div>
+                </section>
+
+                <!-- Statistics Page -->
+                <section id="statistics-page" class="page">
+                    <div class="page-header">
+                        <h2>Statystyki i analizy</h2>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="chart-card">
+                            <h3>Nastrój w czasie</h3>
+                            <canvas id="moodChart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Aktywności</h3>
+                            <canvas id="activityChart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Realizacja celów</h3>
+                            <canvas id="goalsChart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Tagi popularne</h3>
+                            <canvas id="tagsChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Insights Page -->
+                <section id="insights-page" class="page">
+                    <div class="page-header">
+                        <h2>Wnioski i refleksje</h2>
+                    </div>
+                    <div class="insights-content">
+                        <div class="insight-card">
+                            <h3><i class="fas fa-brain"></i> Analiza nastroju</h3>
+                            <div id="moodInsights"></div>
+                        </div>
+                        <div class="insight-card">
+                            <h3><i class="fas fa-trophy"></i> Największe osiągnięcia</h3>
+                            <div id="achievementsInsights"></div>
+                        </div>
+                        <div class="insight-card">
+                            <h3><i class="fas fa-chart-pie"></i> Wzorce zachowań</h3>
+                            <div id="patternsInsights"></div>
+                        </div>
+                        <div class="insight-card">
+                            <h3><i class="fas fa-star"></i> Rekomendacje</h3>
+                            <div id="recommendationsInsights"></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for viewing entries -->
+    <div id="entryModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
